@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql-load-test
+  labels:
+    app: sql-load-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sql-load-test
+  template:
+    metadata:
+      labels:
+        app: sql-load-test
+    spec:
+      containers:
+      - name: sql-load-test
+        image: syedhassaanahmed/azure-sql-load-test
+        env:
+        - name: CONNECTION_STRING
+          value: "Driver={ODBC Driver 17 for SQL Server};Server=tcp:<SERVER_NAME>.database.windows.net,1433;Database=<DATABASE_NAME>;Uid=<USER_NAME>;Pwd=<PASSWORD>;"
+        - name: TEST_ID
+          value: "my_stressful_test"
+        - name: APPINSIGHTS_INSTRUMENTATIONKEY
+          value: "<APPINSIGHTS_INSTRUMENTATIONKEY>"
+        - name: QUERY_SCRIPT_URL
+          value: "https://.../query.py"
