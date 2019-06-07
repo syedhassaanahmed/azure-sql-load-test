@@ -1,7 +1,7 @@
 # azure-sql-load-test
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/syedhassaanahmed/azure-sql-load-test.svg?logo=docker)](https://hub.docker.com/r/syedhassaanahmed/azure-sql-load-test/builds/) [![MicroBadger Size](https://img.shields.io/microbadger/image-size/syedhassaanahmed/azure-sql-load-test.svg?logo=docker)](https://hub.docker.com/r/syedhassaanahmed/azure-sql-load-test/tags/) [![Docker Pulls](https://img.shields.io/docker/pulls/syedhassaanahmed/azure-sql-load-test.svg?logo=docker)](https://hub.docker.com/r/syedhassaanahmed/azure-sql-load-test/)
 
-This tool enables containerized load testing of Azure SQL Database and Azure SQL Data Warehouse by executing T-SQL queries from Docker containers. The SQL query is kept outside and is exposed to the tool as an online Python script (configured by `QUERY_SCRIPT_URL`). The script must contain a function `get_query()` which returns the KQL query. Having a function allows us to randomize aspects of the query. [Here](https://gist.githubusercontent.com/syedhassaanahmed/4a719feb5f496d672a040891c7ea51df/raw/ce38a1c71e7781595097f48c8ad35ccad726d897/sql_query.py) is an example Python script.
+This tool enables containerized load testing of Azure SQL Database and Azure SQL Data Warehouse by executing SQL queries from Docker containers. The SQL query is kept outside and is exposed to the tool as an online Python script (configured by `QUERY_SCRIPT_URL`). The script must contain a function `get_query()` which returns the SQL query. Having a function allows us to randomize aspects of the query. [Here](https://gist.githubusercontent.com/syedhassaanahmed/4a719feb5f496d672a040891c7ea51df/raw/ce38a1c71e7781595097f48c8ad35ccad726d897/sql_query.py) is an example Python script.
 
 In order to measure E2E query latency, an optional [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview) instrumentation can also be provided via `APPINSIGHTS_INSTRUMENTATIONKEY`.
 
@@ -47,10 +47,7 @@ kubectl delete deployment sql-load-test
 ```
 
 ## Query Performance
-For a given test run `my_stressful_test`;
-
-### Application Insights
-E2E duration of all completed queries.
+E2E duration of all completed queries in Application Insights.
 ```sql
 customMetrics
 | where name == "query_time" and customDimensions.test_id == "my_stressful_test"
